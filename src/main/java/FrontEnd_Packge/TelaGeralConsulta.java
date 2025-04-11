@@ -46,6 +46,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         montarTabelaMedico();
         montarTabelaEnfermeiro();
         montarTabelaConsulta();
+
         this.BotaoSalvarEdicaoPaciente.setEnabled(false);
         this.BotaoSalvarMedico.setEnabled(false);
         this.BotaoSalvarEnfermeiro.setEnabled(false);
@@ -132,6 +133,8 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         FieldCepPaciente = new javax.swing.JTextField();
         FieldRuaPaciente = new javax.swing.JTextField();
         FieldCidadePaciente = new javax.swing.JTextField();
+        jLabel66 = new javax.swing.JLabel();
+        FieldIdade = new javax.swing.JTextField();
         PainelMedicoDados = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel23 = new javax.swing.JLabel();
@@ -246,9 +249,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome"
+                "Nome","Data Cadastro"
             }
         ) {
+            //@Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
             Class[] types = new Class [] {
                 java.lang.String.class
             };
@@ -257,6 +265,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        TabelaPaciente.setToolTipText("");
         jScrollPane1.setViewportView(TabelaPaciente);
 
         BotaoMostrarPaciente.setText("Mostrar Paciente");
@@ -266,7 +275,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             }
         });
 
-        BotaoSalvarEdicaoPaciente.setText("Salvar Edição");
+        BotaoSalvarEdicaoPaciente.setText("Salvar Paciente");
         BotaoSalvarEdicaoPaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotaoSalvarEdicaoPacienteActionPerformed(evt);
@@ -305,7 +314,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                     .addComponent(BotaoDeletarPaciente))
                 .addGap(18, 18, 18)
                 .addComponent(BotaoSalvarEdicaoPaciente)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         TabbedPaneConsulta.addTab("Paciente", PainelPaciente);
@@ -332,6 +341,9 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                 "Nome"
             }
         ) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
             Class[] types = new Class [] {
                 java.lang.String.class
             };
@@ -387,7 +399,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                     .addComponent(BotaoMostrarMedico))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotaoSalvarMedico)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         TabbedPaneConsulta.addTab("Médico", PainelMedico);
@@ -414,6 +426,9 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                 "Nome"
             }
         ) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
             Class[] types = new Class [] {
                 java.lang.String.class
             };
@@ -468,7 +483,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                     .addComponent(BotaoDeletarEnfermeiro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotaoSalvarEnfermeiro)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         TabbedPaneConsulta.addTab("Enfermeiro", PainelEnfermeiro);
@@ -495,6 +510,9 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                 "Paciente", "Médico", "Data da consulta"
             }
         ) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
@@ -549,7 +567,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                     .addComponent(BotaoDeletarConsulta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BotaoSalvarConsulta)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         TabbedPaneConsulta.addTab("Consulta", PainelConsulta);
@@ -678,6 +696,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             }
         });
 
+        jLabel66.setText("Idade");
+
+        FieldIdade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FieldIdadeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PainelPacienteDadosLayout = new javax.swing.GroupLayout(PainelPacienteDados);
         PainelPacienteDados.setLayout(PainelPacienteDadosLayout);
         PainelPacienteDadosLayout.setHorizontalGroup(
@@ -709,7 +735,11 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                             .addGroup(PainelPacienteDadosLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(FormattedDataNascimentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(FormattedDataNascimentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel66)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(FieldIdade, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PainelPacienteDadosLayout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -776,7 +806,10 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                 .addGap(76, 76, 76)
                 .addGroup(PainelPacienteDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(FormattedDataNascimentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(FormattedDataNascimentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PainelPacienteDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(FieldIdade)
+                        .addComponent(jLabel66)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1832,7 +1865,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         DefaultTableModel t = (DefaultTableModel) this.TabelaEnfermeiro.getModel();
         t.setRowCount(0);
         montarTabelaEnfermeiro();
-        
+
     }//GEN-LAST:event_BotaoSalvarEnfermeiroActionPerformed
 
     private void BotaoExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExportarExcelActionPerformed
@@ -1855,6 +1888,10 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     private void BotaoMostrarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoMostrarConsultaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BotaoMostrarConsultaActionPerformed
+
+    private void FieldIdadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FieldIdadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FieldIdadeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1898,12 +1935,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             for (Paciente p : PacienteArrayList.ListaDePacientes) {
                 ModeloTabelaPaciente.addRow(
                         new Object[]{
-                            p.getNomeCompleto()
+                            p.getNomeCompleto(),
+                            p.getDataCadastro()
                         });
             }
         }
 
     }
+
 
     public void montarTabelaMedico() {//Funcional
         if (MedicoArrayList.ListaDeMedicos.size() > 0) {
@@ -2010,6 +2049,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         this.FieldTelefoneResponsavelPaciente.setText(p.getContatoResponsavel().getTelefone());
         this.FieldEmailResponávelPaciente.setText(p.getContatoResponsavel().getEmail());
         this.TextObservacaoGeral.setText(p.getObsGeral());
+        this.FieldIdade.setText(String.valueOf(p.getIdade()));
     }
 
     public void setPacienteData(int index) {
@@ -2032,6 +2072,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         p.getContatoResponsavel().setEmail(this.FieldEmailResponávelPaciente.getText());
         p.setObsGeral(this.TextObservacaoGeral.getText());
         p.setGenero(Genero.valueOf(this.ComboBoxGeneroPaciente.getSelectedItem().toString())); //Mexer depois
+        p.setIdade(Integer.parseInt(this.FieldIdade.getText()));
         montarTabelaPacientes();//Remontar a tabela com o paciente atualizado
 
     }
@@ -2119,20 +2160,23 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         e.setTreinadoOpRx(this.CheckBoxRaioX.isSelected());
         //e.setAreasEspecialidade(this.FieldEspecialidades.getText().split(";"));
     }
-    public void getConsultaData(){
+
+    public void getConsultaData() {
         ConsultaMedica c = ConsultaArrayList.ListaDeConsulta.get(TabelaConsulta.getSelectedRow());
         this.TextoExameQueixa.setText(c.getExameQueixa());
         this.TextPrescicao1.setText(c.getPrescricao());
         this.TextDiagnostico1.setText(c.getDiagnostico());
         this.CheckBoxIndicacaoCirurgica.setSelected(c.getIndicacaoCirurgica());
     }
-    public void setConsultaData(int index){
+
+    public void setConsultaData(int index) {
         ConsultaMedica c = ConsultaArrayList.ListaDeConsulta.get(index);
         c.setDiagnostico(this.TextDiagnostico1.getText());
         c.setExameQueixa(this.TextoExameQueixa.getText());
         c.setPrescricao(this.TextPrescicao1.getText());
         c.setIndicacaoCirurgica(this.CheckBoxIndicacaoCirurgica.isSelected());
     }
+
     public void enableDisableComponents(JComponent componente, boolean estado) {
         componente.setEnabled(estado);
         for (java.awt.Component comp : componente.getComponents()) {
@@ -2142,14 +2186,18 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             comp.setEnabled(estado);
         }
     }
+
     public LocalDate getDataNascimento(JFormattedTextField f) {
-        LocalDate dataN  = LocalDate.parse(
+        LocalDate dataN = LocalDate.parse(
                 f.getText(),
                 DateTimeFormatter.ofPattern("dd/mm/yyyy")
-
         );
-       // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return dataN;
+    }
+       //@Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotaoDeletarConsulta;
@@ -2200,6 +2248,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     private javax.swing.JTextField FieldEstadoEnfermeiro;
     private javax.swing.JTextField FieldEstadoMedico;
     private javax.swing.JTextField FieldEstadoPaciente;
+    private javax.swing.JTextField FieldIdade;
     private javax.swing.JTextField FieldNomeCompleto;
     private javax.swing.JTextField FieldNomeCompletoEnfermeiro;
     private javax.swing.JTextField FieldNomeCompletoMedico;
@@ -2299,6 +2348,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

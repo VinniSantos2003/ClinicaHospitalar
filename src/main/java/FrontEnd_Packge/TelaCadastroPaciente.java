@@ -93,6 +93,8 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TextObservacaoGeral = new javax.swing.JTextArea();
+        FieldIdade = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,7 +115,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
 
         FormattedDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
         FormattedDataNascimento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        FormattedDataNascimento.setToolTipText("");
+        FormattedDataNascimento.setToolTipText("dd/mm/yyyy");
         FormattedDataNascimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FormattedDataNascimentoActionPerformed(evt);
@@ -237,6 +239,8 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
         TextObservacaoGeral.setRows(5);
         jScrollPane1.setViewportView(TextObservacaoGeral);
 
+        jLabel23.setText("Idade");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -267,7 +271,12 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
                                 .addComponent(jLabel1))
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(FormattedDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(FormattedDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel23)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(FieldIdade, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(FieldNomeCompleto, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -337,7 +346,10 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(FormattedDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(FormattedDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FieldIdade)
+                    .addComponent(jLabel23))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -479,7 +491,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
                         e,
                         c,
                         getGenero(),
-                        0,//Criar Campo
+                        getIdade(),
                         new Date(),
                         getObservacaoGeral(),
                         r);
@@ -585,6 +597,11 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
     return this.FieldEstado.getText();
 }
 
+    public int getIdade(){
+        return Integer.parseInt(this.FieldIdade.getText());
+    }
+    
+            
     public int getCep() {
     return Integer.parseInt(this.FieldCep.getText());
 }
@@ -664,6 +681,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
     private javax.swing.JTextField FieldEmail;
     private javax.swing.JTextField FieldEmailResponável;
     private javax.swing.JTextField FieldEstado;
+    private javax.swing.JTextField FieldIdade;
     private javax.swing.JTextField FieldNomeCompleto;
     private javax.swing.JTextField FieldNomeResponsavel;
     private javax.swing.JTextField FieldNumero;
@@ -687,6 +705,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
