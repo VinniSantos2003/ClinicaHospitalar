@@ -10,18 +10,27 @@ import BackEnd_Packge.ArrayListClass.MedicoArrayList;
 import BackEnd_Packge.ArrayListClass.PacienteArrayList;
 import BackEnd_Packge.ConsultaMedica;
 import BackEnd_Packge.Enfermeiro;
+import BackEnd_Packge.ExportarExcel;
 import BackEnd_Packge.Genero;
 import BackEnd_Packge.Medico;
 import BackEnd_Packge.Paciente;
 import java.awt.Container;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -249,16 +258,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome","Data Cadastro"
+                "Nome", "Data Cadastro"
             }
         ) {
-            //@Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -804,12 +811,13 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             PainelPacienteDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PainelPacienteDadosLayout.createSequentialGroup()
                 .addGap(76, 76, 76)
-                .addGroup(PainelPacienteDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(FormattedDataNascimentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PainelPacienteDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PainelPacienteDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(FieldIdade)
-                        .addComponent(jLabel66)))
+                        .addComponent(jLabel66))
+                    .addGroup(PainelPacienteDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(FormattedDataNascimentoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1870,6 +1878,19 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     private void BotaoExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExportarExcelActionPerformed
         // TODO add your handling code here:
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet shPaciente = ExportarExcel.createSheet(wb, "Paciente");
+        ExportarExcel.prepareSheetDadoPessoal(shPaciente);
+        ExportarExcel.prepareSheetPaciente(shPaciente);
+        ExportarExcel.writeSheetPaciente(wb,shPaciente, PacienteArrayList.ListaDePacientes);
+        
+        //Escrever arquivo
+        try(OutputStream fileOut = new FileOutputStream("worksheet.xls")){
+        wb.write(fileOut);
+        wb.close();
+        }catch(Exception e){
+            
+        }
     }//GEN-LAST:event_BotaoExportarExcelActionPerformed
 
     private void BotaoImportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoImportarExcelActionPerformed
