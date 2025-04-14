@@ -84,11 +84,12 @@ public class ExportarExcel {
 
     public static void prepareSheetConsulta(XSSFSheet sh) {
         //A logica é diferente do resto
-        XSSFRow Row = sh.getRow(0);
-        for (int i = 0; i < SheetConsulta.length + 0; i++) {
+        XSSFRow Row = sh.createRow(0).getSheet().getRow(0);
+        //Aparentemente consertou o problema de row nula se não houver registros no ConsultaArraylist
+        for (int i = 0; i < SheetConsulta.length; i++) {
 
             XSSFCell Cell = Row.createCell(i);
-            Cell.setCellValue(SheetConsulta[i - 0]);
+            Cell.setCellValue(SheetConsulta[i]);
         }
     };
 

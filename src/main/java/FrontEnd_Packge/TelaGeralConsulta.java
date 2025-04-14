@@ -345,14 +345,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome"
+                "Nome", "Número CRM"
             }
         ) {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1878,19 +1878,54 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     private void BotaoExportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExportarExcelActionPerformed
         // TODO add your handling code here:
-        XSSFWorkbook wb = new XSSFWorkbook();
-        XSSFSheet shPaciente = ExportarExcel.createSheet(wb, "Paciente");
-        ExportarExcel.prepareSheetDadoPessoal(shPaciente);
-        ExportarExcel.prepareSheetPaciente(shPaciente);
-        ExportarExcel.writeSheetPaciente(wb,shPaciente, PacienteArrayList.ListaDePacientes);
-        
-        //Escrever arquivo
-        try(OutputStream fileOut = new FileOutputStream("worksheet.xls")){
-        wb.write(fileOut);
-        wb.close();
-        }catch(Exception e){
-            
+
+        //Verificar se todos estão vazios, se estiverem não fazer nada
+        if(
+            PacienteArrayList.getArrayList().isEmpty() &&
+            MedicoArrayList.getArrayList().isEmpty() &&
+            EnfermeiroArrayList.getArrayList().isEmpty() &
+            ConsultaArrayList.getArrayList().isEmpty()
+        ){
+            JOptionPane.showMessageDialog(null,"Não há registros em memória para serem exportados");
+        } else{
+
+            XSSFWorkbook wb = new XSSFWorkbook();
+            //Cria as Sheets
+            XSSFSheet shPaciente = ExportarExcel.createSheet(wb, "Paciente");
+            XSSFSheet shMedico = ExportarExcel.createSheet(wb,"Médico");
+            XSSFSheet shEnfermeiro = ExportarExcel.createSheet(wb,"Enfermeiro");
+            XSSFSheet shConsulta = ExportarExcel.createSheet(wb,"Consulta");
+            //Prepara paciente,medico e enfermeiro com dado pessoal
+            ExportarExcel.prepareSheetDadoPessoal(shPaciente);
+            ExportarExcel.prepareSheetDadoPessoal(shMedico);
+            ExportarExcel.prepareSheetDadoPessoal(shEnfermeiro);
+            //Prepara as seguintes sheets com os dados especificos
+            ExportarExcel.prepareSheetPaciente(shPaciente);
+            ExportarExcel.prepareSheetMedico(shMedico);
+            ExportarExcel.prepareSheetEnfermeiro(shEnfermeiro);
+            ExportarExcel.prepareSheetConsulta(shConsulta);
+            //Escreve os dados especificos de cada sheet baseado no objeto das listas
+            ExportarExcel.writeSheetPaciente(wb,shPaciente, PacienteArrayList.ListaDePacientes);
+            ExportarExcel.writeSheetMedico(wb,shMedico,MedicoArrayList.ListaDeMedicos);
+            ExportarExcel.writeSheetEnfermeiro(wb,shEnfermeiro,EnfermeiroArrayList.ListaDeEnfermeiro);
+            ExportarExcel.writeSheetConsulta(wb,shConsulta,ConsultaArrayList.ListaDeConsulta);
+
+
+
+            //Escrever arquivo
+            //Usar o JfileChooser para escolher o local de salvamento do arquivo
+            try(OutputStream fileOut = new FileOutputStream("worksheet.xls")){
+                wb.write(fileOut);
+                wb.close();
+            }catch(Exception e){
+
+            }
+
         }
+
+
+
+
     }//GEN-LAST:event_BotaoExportarExcelActionPerformed
 
     private void BotaoImportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoImportarExcelActionPerformed
@@ -1950,14 +1985,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     }
 
     public void montarTabelaPacientes() {//Funcional
-        if (PacienteArrayList.ListaDePacientes.size() > 0) {
+        if (!PacienteArrayList.ListaDePacientes.isEmpty()) {
             DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaPaciente.getModel();
-
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             for (Paciente p : PacienteArrayList.ListaDePacientes) {
                 ModeloTabelaPaciente.addRow(
                         new Object[]{
                             p.getNomeCompleto(),
-                            p.getDataCadastro()
+                            sdf.format(p.getDataCadastro())//Irá mostrar somente dd/mm/yyyy ao inves do objeto Date completo
                         });
             }
         }
@@ -1966,13 +2001,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
 
     public void montarTabelaMedico() {//Funcional
-        if (MedicoArrayList.ListaDeMedicos.size() > 0) {
+        if (!MedicoArrayList.ListaDeMedicos.isEmpty()) {
             DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaMedico.getModel();
 
             for (Medico m : MedicoArrayList.ListaDeMedicos) {
                 ModeloTabelaPaciente.addRow(
                         new Object[]{
-                            m.getNomeCompleto()
+                            m.getNomeCompleto(),
+                            m.getNumeroCRM()
                         });
             }
         }
@@ -1980,7 +2016,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     }
 
     public void montarTabelaEnfermeiro() {//Funcional
-        if (EnfermeiroArrayList.ListaDeEnfermeiro.size() > 0) {
+        if (!EnfermeiroArrayList.ListaDeEnfermeiro.isEmpty()) {
             DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaEnfermeiro.getModel();
 
             for (Enfermeiro e : EnfermeiroArrayList.ListaDeEnfermeiro) {
@@ -1994,7 +2030,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     }
 
     public void montarTabelaConsulta() {//Funcional
-        if (ConsultaArrayList.ListaDeConsulta.size() > 0) {
+        if (!ConsultaArrayList.ListaDeConsulta.isEmpty()) {
             DefaultTableModel ModeloTabelaConsulta = (DefaultTableModel) this.TabelaConsulta.getModel();
             //Para a tabela de consulta, terei que usar o ID registrado na consulta para achar um objeto que possua 
             //esse id e então retornalo e usar o getNomeCompleto para mostrar o nome do paciente e do médico na tabela
@@ -2051,10 +2087,10 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     }
 
     public void getPacienteData() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Paciente p = getPaciente(TabelaPaciente.getSelectedRow());//Vai receber o paciente selecionado
         this.FieldNomeCompleto.setText(p.getNomeCompleto());
-        this.FormattedDataNascimentoPaciente.setText(String.valueOf(p.getDataNascimento()));
+        this.FormattedDataNascimentoPaciente.setText(p.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         this.FieldRuaPaciente.setText(p.getEndereco().getRua());
         this.FieldEstadoPaciente.setText(p.getEndereco().getEstado());
         this.FieldNumeroPaciente.setText(String.valueOf(p.getEndereco().getNumero()));
@@ -2076,7 +2112,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     public void setPacienteData(int index) {
         //Gravar os dados da tela no objeto
         Paciente p = PacienteArrayList.ListaDePacientes.get(index);
-        p.setNomeCompleto(this.FieldNomeResponsavelPaciente.getText());
+        p.setNomeCompleto(this.FieldNomeCompleto.getText());
         p.setDataNascimento(getDataNascimento(this.FormattedDataNascimentoPaciente));
         p.getEndereco().setRua(this.FieldRuaPaciente.getText());
         p.getEndereco().setCep(Integer.parseInt(this.FieldCepPaciente.getText()));
@@ -2102,7 +2138,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         Medico m = MedicoArrayList.ListaDeMedicos.get(TabelaMedico.getSelectedRow());
         this.FieldNomeCompletoMedico.setText(m.getNomeCompleto());
-        this.TextFieldDataNascimentoMedico.setText(String.valueOf(m.getDataNascimento()));
+        this.TextFieldDataNascimentoMedico.setText(m.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         this.FieldRuaMedico.setText(m.getEndereco().getRua());
         this.FieldCidadeMedico.setText(m.getEndereco().getCidade());
         this.FieldCepMedico.setText(String.valueOf(m.getEndereco().getCep()));
@@ -2146,7 +2182,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
         Enfermeiro e = EnfermeiroArrayList.ListaDeEnfermeiro.get(TabelaEnfermeiro.getSelectedRow());
         this.FieldNomeCompletoEnfermeiro.setText(e.getNomeCompleto());
-        this.TextFieldDataNascimentoEnfermeiro.setText(String.valueOf(e.getDataNascimento()));
+        this.TextFieldDataNascimentoEnfermeiro.setText(String.valueOf(e.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
         this.FieldRuaEnfermeiro.setText(e.getEndereco().getRua());
         this.FieldCidadeEnfermeiro.setText(e.getEndereco().getCidade());
         this.FieldCepEnfermeiro.setText(String.valueOf(e.getEndereco().getCep()));
@@ -2175,11 +2211,10 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         e.getContato().setTelefone(this.FieldTelefoneEnfermeiro.getText());
         e.getContato().setEmail(this.FieldEmailMedico.getText());
         e.setChSemanal(Integer.parseInt(this.FieldCHEnfermeiro.getText()));
-        // e.setNumeroCRM(Integer.parseInt(this.FieldCmrMedico.getText()));
         e.setSetor(this.FieldSetorEnfermeiro.getText());
         e.setGenero(Genero.valueOf(this.ComboBoxGeneroEnfermeiro.getSelectedItem().toString()));
         e.setTreinadoOpRx(this.CheckBoxRaioX.isSelected());
-        //e.setAreasEspecialidade(this.FieldEspecialidades.getText().split(";"));
+
     }
 
     public void getConsultaData() {
@@ -2209,12 +2244,17 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     }
 
     public LocalDate getDataNascimento(JFormattedTextField f) {
-        LocalDate dataN = LocalDate.parse(
-                f.getText(),
-                DateTimeFormatter.ofPattern("dd/mm/yyyy")
-        );
-        // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return dataN;
+        try{
+            LocalDate dataN = LocalDate.parse(
+                    f.getText().trim(),
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            );
+            // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            return dataN;
+        }catch(Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
        //@Override
     public boolean isCellEditable(int row, int column) {
