@@ -1914,7 +1914,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
             //Escrever arquivo
             //Usar o JfileChooser para escolher o local de salvamento do arquivo
-            try(OutputStream fileOut = new FileOutputStream("worksheet.xls")){
+            try(OutputStream fileOut = new FileOutputStream("worksheet.xlsx")){
                 wb.write(fileOut);
                 wb.close();
             }catch(Exception e){

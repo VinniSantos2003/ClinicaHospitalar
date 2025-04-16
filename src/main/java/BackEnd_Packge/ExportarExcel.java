@@ -158,7 +158,7 @@ public class ExportarExcel {
             Row.createCell(12).setCellValue(m.getContato().getEmail());
             //Fazer celular especificas do médico
             Row.createCell(13).setCellValue(m.getNumeroCRM());
-            Row.createCell(14).setCellValue(m.getAreasEspecialidade().toString());
+            Row.createCell(14).setCellValue(m.getAreasEspecialidade().toString());//Está retornando o nome do objeto, não o conteudo
             Row.createCell(15).setCellValue(m.getCirugiao());
             Row.createCell(16).setCellValue(m.getChSemanal());
             Row.createCell(17).setCellValue(m.getSetor());

@@ -12,7 +12,7 @@ public class Paciente extends DadoPessoal{
     private String obsGeral;
     private ArrayList<ConsultaMedica> historicoConsultasMedicas;
     private Responsavel contatoResponsavel;
-
+/*
     public Paciente(
             String nomeCompleto,
             LocalDate dataNascimento,
@@ -35,7 +35,7 @@ public class Paciente extends DadoPessoal{
         this.setObsGeral(obsGeral);
 
 
-    }
+    }*/
         public Paciente(
             String nomeCompleto,
             LocalDate dataNascimento,
