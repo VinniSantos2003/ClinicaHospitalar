@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import java.util.ArrayList;
 
 public class ExportarExcel {
-    // XSSFWorkbook wb = new XSSFWorkbook();
+
 
     public static XSSFSheet createSheet(XSSFWorkbook wb, String tipo) {
         //Passo uma workbook e retorno uma sheet dessa workbook
@@ -92,23 +92,21 @@ public class ExportarExcel {
 
     public static void writeSheetPaciente(XSSFWorkbook wb, XSSFSheet sh, ArrayList<Paciente> ListadePacientes) {
         int contatorRow = 1;
-        int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
+
         CellStyle dataStyle = wb.createCellStyle();
         CellStyle numericStyle = wb.createCellStyle();
         DataFormat format = wb.createDataFormat();
         CreationHelper CH = wb.getCreationHelper();
         numericStyle.setDataFormat(format.getFormat("#,##0.00"));
         dataStyle.setDataFormat(CH.createDataFormat().getFormat("dd/MM/yyyy"));
-        for (Paciente p : ListadePacientes) {//Cuida das Linhas
+        for (Paciente p : ListadePacientes) {
             XSSFRow Row = sh.createRow(contatorRow);
 
             Row.createCell(0).setCellValue(String.valueOf(p.getIdPaciente()));
             Row.getCell(0).setCellStyle(numericStyle);
-            //Row.getCell(0).setCellStyle(CellType.NUMERIC);
             Row.createCell(1).setCellValue(p.getNomeCompleto());
             Row.createCell(2).setCellValue(p.getDataNascimento());
             Row.getCell(2).setCellStyle(dataStyle);
-            //Formatar coluna 2 para data
             Row.createCell(3).setCellValue(String.valueOf(p.getGenero()));//Problema
             Row.createCell(4).setCellValue(p.getEndereco().getRua());
             Row.createCell(5).setCellValue(p.getEndereco().getNumero());
@@ -119,13 +117,11 @@ public class ExportarExcel {
             Row.createCell(10).setCellValue(p.getContato().getTelefone());
             Row.createCell(11).setCellValue(p.getContato().getCelular());
             Row.createCell(12).setCellValue(p.getContato().getEmail());
-            // Row.createCell(13).setCellValue(p.getContato().getTelefone());
             Row.createCell(13).setCellValue(p.getIdade());
             Row.createCell(14).setCellValue(p.getDataCadastro());
             Row.getCell(14).setCellStyle(dataStyle);
-            //Formatar coluna 14 para data
             Row.createCell(15).setCellValue(p.getObsGeral());
-            Row.createCell(16).setCellValue("Vazio por hora");
+            Row.createCell(16).setCellValue("Vazio por hora");//Criar uma função para listar os IDs das consultas e separar-las por ";"
             Row.createCell(17).setCellValue(p.getContatoResponsavel().getNomeResponsavel());
             Row.createCell(18).setCellValue(p.getContatoResponsavel().getTelefone());
             Row.createCell(19).setCellValue(p.getContatoResponsavel().getCelular());
@@ -136,7 +132,7 @@ public class ExportarExcel {
 
     public static void writeSheetMedico(XSSFWorkbook wb, XSSFSheet sh, ArrayList<Medico> ListadeMedicos) {
         int contatorRow = 1;
-        int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
+
         CellStyle dataStyle = wb.createCellStyle();
         CellStyle numericStyle = wb.createCellStyle();
         DataFormat format = wb.createDataFormat();
@@ -150,7 +146,8 @@ public class ExportarExcel {
             Row.getCell(0).setCellStyle(numericStyle);
             Row.createCell(1).setCellValue(m.getNomeCompleto());
             Row.createCell(2).setCellValue(m.getDataNascimento());
-            Row.getCell(2).setCellStyle(numericStyle);
+            Row.getCell(2).setCellStyle(dataStyle);
+            //Row.getCell(2).setCellStyle(numericStyle);
             Row.createCell(3).setCellValue(String.valueOf(m.getGenero()));//Problema
             Row.createCell(4).setCellValue(m.getEndereco().getRua());
             Row.createCell(5).setCellValue(m.getEndereco().getNumero());
@@ -173,7 +170,7 @@ public class ExportarExcel {
 
     public static void writeSheetEnfermeiro(XSSFWorkbook wb, XSSFSheet sh, ArrayList<Enfermeiro> ListadeEnfermeiros) {
         int contatorRow = 1;
-        int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
+
         CellStyle dataStyle = wb.createCellStyle();
         CellStyle numericStyle = wb.createCellStyle();
         DataFormat format = wb.createDataFormat();
@@ -188,7 +185,7 @@ public class ExportarExcel {
             Row.getCell(0).setCellStyle(numericStyle);
             Row.createCell(1).setCellValue(e.getNomeCompleto());
             Row.createCell(2).setCellValue(e.getDataNascimento());
-            Row.getCell(2).setCellStyle(dataStyle);//Formatar coluna 2 para data
+            Row.getCell(2).setCellStyle(dataStyle);
             Row.createCell(3).setCellValue(String.valueOf(e.getGenero()));//Problema
             Row.createCell(4).setCellValue(e.getEndereco().getRua());
             Row.createCell(5).setCellValue(e.getEndereco().getNumero());
@@ -199,7 +196,6 @@ public class ExportarExcel {
             Row.createCell(10).setCellValue(e.getContato().getTelefone());
             Row.createCell(11).setCellValue(e.getContato().getCelular());
             Row.createCell(12).setCellValue(e.getContato().getEmail());
-            //Adicionar dados do enfermeiro
             Row.createCell(13).setCellValue(e.getTreinadoOpRx());
             Row.createCell(13).setCellValue(e.getChSemanal());
             Row.createCell(13).setCellValue(e.getSetor());
@@ -209,7 +205,7 @@ public class ExportarExcel {
 
     public static void writeSheetConsulta(XSSFWorkbook wb, XSSFSheet sh, ArrayList<ConsultaMedica> ListadeConsultas) {
         int contatorRow = 1;
-        int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
+
         CellStyle dataStyle = wb.createCellStyle();
         CellStyle numericStyle = wb.createCellStyle();
         DataFormat format = wb.createDataFormat();
@@ -244,7 +240,7 @@ public class ExportarExcel {
     private static String stripStringVector(String [] vetor){
         StringBuilder texto = new StringBuilder();
         for(String s : vetor){
-            texto.append(s);
+            texto.append(s+";");
         }
         return texto.toString();
     }

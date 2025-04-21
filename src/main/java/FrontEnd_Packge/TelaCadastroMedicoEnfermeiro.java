@@ -649,72 +649,72 @@ public class TelaCadastroMedicoEnfermeiro extends javax.swing.JFrame {
     }
 
     //Metodos auxiliares
-    public String getNomeCompleto() {
+    private String getNomeCompleto() {
         return this.FieldNomeCompleto.getText();
     }
 
-    public String getRua() {
+    private String getRua() {
         return this.FieldRua.getText();
     }
 
-    public int getNumero() {
+    private int getNumero() {
         return Integer.parseInt(this.FieldNumero.getText());
     }
 
-    public String getBairro() {
+    private String getBairro() {
         return this.FieldBairro.getText();
     }
 
-    public String getCidade() {
+    private String getCidade() {
         return this.FieldCidade.getText();
     }
 
-    public String getEstado() {
+    private String getEstado() {
         return this.FieldEstado.getText();
     }
 
-    public int getCep() {
+    private int getCep() {
         return Integer.parseInt(this.FieldCep.getText());
     }
 
-    public String getTelefone() {
+    private String getTelefone() {
         return this.FieldTelefone.getText();
     }
 
-    public String getCelular() {
+    private String getCelular() {
         return this.FieldCelular.getText();
     }
 
-    public String getEmail() {
+    private String getEmail() {
         return this.FieldEmail.getText();
     }
 
-    public Genero getGenero() {
+    private Genero getGenero() {
         return Genero.valueOf(this.ComboBoxGenero.getSelectedItem().toString());
     }
 
-    public int getCMR() {
+    private int getCMR() {
         return Integer.parseInt(this.FieldCmr.getText());
     }
 
-    public boolean getCirurgiao() {
+    private boolean getCirurgiao() {
         return this.CheckBoxCirurgiao.isSelected();
     }
 
-    public int getCH() {
+    private int getCH() {
         return Integer.parseInt(this.FieldCH1.getText());
     }
 
-    public String getSetor() {
+    private String getSetor() {
         return this.FieldSetor.getText();
     }
 
-    public String[] getEspecialidades() {
+    private String[] getEspecialidades() {
 
         return this.FieldEspecialidades.getText().split(";");
     }
 
-    public LocalDate getDataNascimento() {//Consertar depois
+    private LocalDate getDataNascimento() {//Consertar depois
         try {
             LocalDate dataN = LocalDate.parse(
                     this.TextFieldDataNascimento.getText().trim(),
@@ -729,10 +729,10 @@ public class TelaCadastroMedicoEnfermeiro extends javax.swing.JFrame {
         return null;
     }
 
-    public boolean getTreinadoRx() {
+    private boolean getTreinadoRx() {
         return this.CheckBoxRaioX.isSelected();
     }
-    public void limparTela() {
+    private void limparTela() {
     this.FieldNomeCompleto.setText("");
     this.TextFieldDataNascimento.setText("");
     this.FieldRua.setText("");

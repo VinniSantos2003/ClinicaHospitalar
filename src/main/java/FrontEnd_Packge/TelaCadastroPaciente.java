@@ -557,11 +557,11 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
     }
 
     // Funções auxiliares
-    public String getNomeCompleto() {
+    private String getNomeCompleto() {
         return this.FieldNomeCompleto.getText();
     }
 
-    public LocalDate getDataNascimento() {
+    private LocalDate getDataNascimento() {
         try {
             LocalDate dataN = LocalDate.parse(
                     this.FormattedDataNascimento.getText().trim(),
@@ -578,71 +578,71 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
 
     }
 
-    public String getRua() {
+    private String getRua() {
         return this.FieldRua.getText();
     }
 
-    public int getNumero() {
+    private int getNumero() {
         return Integer.parseInt(this.FieldNumero.getText());
     }
 
-    public String getBairro() {
+    private String getBairro() {
         return this.FieldBairro.getText();
     }
 
-    public String getCidade() {
+    private String getCidade() {
         return this.FieldCidade.getText();
     }
 
-    public String getEstado() {
+    private String getEstado() {
         return this.FieldEstado.getText();
     }
 
-    public int getIdade() {
+    private int getIdade() {
         return Integer.parseInt(this.FieldIdade.getText());
     }
 
-    public int getCep() {
+    private int getCep() {
         return Integer.parseInt(this.FieldCep.getText());
     }
 
-    public String getTelefonePaciente() {
+    private String getTelefonePaciente() {
         return this.FieldTelefone.getText();
     }
 
-    public String getCelularPaciente() {
+    private String getCelularPaciente() {
         return this.FieldCelular.getText();
     }
 
-    public String getEmailPaciente() {
+    private String getEmailPaciente() {
         return this.FieldEmail.getText();
     }
 
-    public String getNomeResponsavel() {
+    private String getNomeResponsavel() {
         return this.FieldNomeResponsavel.getText();
     }
 
-    public String getTelefoneResponsavel() {
+    private String getTelefoneResponsavel() {
         return this.FieldTelefoneResponsavel.getText();
     }
 
-    public String getCelularResponsavel() {
+    private String getCelularResponsavel() {
         return this.FieldCelularResponsável.getText();
     }
 
-    public String getEmailResponsavel() {
+    private String getEmailResponsavel() {
         return this.FieldEmailResponável.getText();
     }
 
-    public String getObservacaoGeral() {
+    private String getObservacaoGeral() {
         return this.TextObservacaoGeral.getText();
     }
 
-    public Genero getGenero() {
+    private Genero getGenero() {
         return Genero.valueOf(this.ComboBoxGenero.getSelectedItem().toString());
     }
 
-    public void limparTela() {
+    private void limparTela() {
         this.FieldNomeCompleto.setText("");
         this.FormattedDataNascimento.setText("");
         this.FieldRua.setText("");

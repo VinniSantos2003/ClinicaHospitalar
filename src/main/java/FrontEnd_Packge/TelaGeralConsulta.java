@@ -1981,7 +1981,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         });
     }
 
-    public void montarTabelaPacientes() {//Funcional
+    private void montarTabelaPacientes() {//Funcional
         if (!PacienteArrayList.ListaDePacientes.isEmpty()) {
             DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaPaciente.getModel();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -1997,7 +1997,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
     }
 
 
-    public void montarTabelaMedico() {//Funcional
+    private void montarTabelaMedico() {//Funcional
         if (!MedicoArrayList.ListaDeMedicos.isEmpty()) {
             DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaMedico.getModel();
 
@@ -2012,7 +2012,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     }
 
-    public void montarTabelaEnfermeiro() {//Funcional
+    private void montarTabelaEnfermeiro() {//Funcional
         if (!EnfermeiroArrayList.ListaDeEnfermeiro.isEmpty()) {
             DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaEnfermeiro.getModel();
 
@@ -2026,7 +2026,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     }
 
-    public void montarTabelaConsulta() {//Funcional
+    private void montarTabelaConsulta() {//Funcional
         if (!ConsultaArrayList.ListaDeConsulta.isEmpty()) {
             DefaultTableModel ModeloTabelaConsulta = (DefaultTableModel) this.TabelaConsulta.getModel();
             //Para a tabela de consulta, terei que usar o ID registrado na consulta para achar um objeto que possua 
@@ -2056,7 +2056,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     }
 
-    public Medico getMedicoById(long idMedico) {//Passo 2
+    private Medico getMedicoById(long idMedico) {//Passo 2
         for (Medico m : MedicoArrayList.ListaDeMedicos) {
             if (m.getIdMedico() == idMedico) {
                 return m;
@@ -2065,7 +2065,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         return null;
     }
 
-    public Paciente getPacienteById(long idPaciente) {//Passo 2
+    private Paciente getPacienteById(long idPaciente) {//Passo 2
         for (Paciente p : PacienteArrayList.ListaDePacientes) {
             if (p.getIdPaciente() == idPaciente) {
                 return p;
@@ -2074,19 +2074,18 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         return null;
     }
 
-    public Medico getMedico(int index) {
+    private Medico getMedico(int index) {
         return MedicoArrayList.ListaDeMedicos.get(index);
     }
 
-    public Paciente getPaciente(int index) {
+    private Paciente getPaciente(int index) {
         return PacienteArrayList.ListaDePacientes.get(index);
     }
 
-    public void getPacienteData() {
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private void getPacienteData() {
         Paciente p = getPaciente(TabelaPaciente.getSelectedRow());//Vai receber o paciente selecionado
         this.FieldNomeCompleto.setText(p.getNomeCompleto());
-        this.FormattedDataNascimentoPaciente.setText(p.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        this.FormattedDataNascimentoPaciente.setText(p.getDataNascimento().toString());
         this.FieldRuaPaciente.setText(p.getEndereco().getRua());
         this.FieldEstadoPaciente.setText(p.getEndereco().getEstado());
         this.FieldNumeroPaciente.setText(String.valueOf(p.getEndereco().getNumero()));
@@ -2096,7 +2095,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         this.FieldCelularPaciente.setText(p.getContato().getCelular());
         this.FieldTelefonePaciente.setText(p.getContato().getTelefone());
         this.FieldEmailPaciente.setText(p.getContato().getEmail());
-        //this.ComboBoxGeneroPaciente.setSelectedIndex(p.getGenero()); Fazer uma função para retornar 1 ou 0 dependendo do gerero da pessoa
+        this.ComboBoxGeneroPaciente.setSelectedIndex(checkGender(p.getGenero()));
         this.FieldNomeResponsavelPaciente.setText(p.getContatoResponsavel().getNomeResponsavel());//O Responsável está retornando vazio ??? verificar preenchimento
         this.FieldCelularResponsávelPaciente.setText(p.getContatoResponsavel().getCelular());
         this.FieldTelefoneResponsavelPaciente.setText(p.getContatoResponsavel().getTelefone());
@@ -2105,8 +2104,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         this.FieldIdade.setText(String.valueOf(p.getIdade()));
     }
 
-    public void setPacienteData(int index) {
-        //Gravar os dados da tela no objeto
+    private void setPacienteData(int index) {
         Paciente p = PacienteArrayList.ListaDePacientes.get(index);
         p.setNomeCompleto(this.FieldNomeCompleto.getText());
         p.setDataNascimento(getDataNascimento(this.FormattedDataNascimentoPaciente));
@@ -2130,11 +2128,10 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     }
 
-    public void getMedicoData() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+    private void getMedicoData() {
         Medico m = MedicoArrayList.ListaDeMedicos.get(TabelaMedico.getSelectedRow());
         this.FieldNomeCompletoMedico.setText(m.getNomeCompleto());
-        this.TextFieldDataNascimentoMedico.setText(m.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        this.TextFieldDataNascimentoMedico.setText(m.getDataNascimento().toString());
         this.FieldRuaMedico.setText(m.getEndereco().getRua());
         this.FieldCidadeMedico.setText(m.getEndereco().getCidade());
         this.FieldCepMedico.setText(String.valueOf(m.getEndereco().getCep()));
@@ -2144,7 +2141,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         this.FieldCelularMedico.setText(m.getContato().getCelular());
         this.FieldTelefoneMedico.setText(m.getContato().getTelefone());
         this.FieldEmailMedico.setText(m.getContato().getEmail());
-        //this.ComboBoxGeneroMedico.
+        this.ComboBoxGeneroMedico.setSelectedItem(checkGender(m.getGenero()));
         this.FieldCmrMedico.setText(String.valueOf(m.getNumeroCRM()));
         this.FieldCHMedico.setText(String.valueOf(m.getChSemanal()));
         this.FieldSetorMedico.setText(m.getSetor());
@@ -2153,7 +2150,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     }
 
-    public void setMedicoData(int index) {
+    private void setMedicoData(int index) {
         Medico m = MedicoArrayList.ListaDeMedicos.get(index);
         m.setNomeCompleto(this.FieldNomeCompletoMedico.getText());
         m.getEndereco().setRua(this.FieldRuaMedico.getText());
@@ -2174,11 +2171,11 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     }
 
-    public void getEnfermeiroData() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+    private void getEnfermeiroData() {
+
         Enfermeiro e = EnfermeiroArrayList.ListaDeEnfermeiro.get(TabelaEnfermeiro.getSelectedRow());
         this.FieldNomeCompletoEnfermeiro.setText(e.getNomeCompleto());
-        this.TextFieldDataNascimentoEnfermeiro.setText(String.valueOf(e.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+        this.TextFieldDataNascimentoEnfermeiro.setText(e.getDataNascimento().toString());
         this.FieldRuaEnfermeiro.setText(e.getEndereco().getRua());
         this.FieldCidadeEnfermeiro.setText(e.getEndereco().getCidade());
         this.FieldCepEnfermeiro.setText(String.valueOf(e.getEndereco().getCep()));
@@ -2189,12 +2186,12 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         this.FieldTelefoneEnfermeiro.setText(e.getContato().getTelefone());
         this.FieldEmailEnfermeiro.setText(e.getContato().getEmail());
         this.CheckBoxRaioX.setSelected(e.getTreinadoOpRx());
-        //this.FieldCmrEnfermeiro.setText(String.valueOf(e.get()));
+        this.ComboBoxGeneroEnfermeiro.setSelectedItem(checkGender(e.getGenero()));
         this.FieldCHEnfermeiro.setText(String.valueOf(e.getChSemanal()));
         this.FieldSetorEnfermeiro.setText(e.getSetor());
     }
 
-    public void setEnfermeiroData(int index) {
+    private void setEnfermeiroData(int index) {
         Enfermeiro e = EnfermeiroArrayList.ListaDeEnfermeiro.get(index);
         e.setNomeCompleto(this.FieldNomeCompletoEnfermeiro.getText());
         e.getEndereco().setRua(this.FieldRuaEnfermeiro.getText());
@@ -2213,7 +2210,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     }
 
-    public void getConsultaData() {
+    private void getConsultaData() {
         ConsultaMedica c = ConsultaArrayList.ListaDeConsulta.get(TabelaConsulta.getSelectedRow());
         this.TextoExameQueixa.setText(c.getExameQueixa());
         this.TextPrescicao1.setText(c.getPrescricao());
@@ -2221,7 +2218,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         this.CheckBoxIndicacaoCirurgica.setSelected(c.getIndicacaoCirurgica());
     }
 
-    public void setConsultaData(int index) {
+    private void setConsultaData(int index) {
         ConsultaMedica c = ConsultaArrayList.ListaDeConsulta.get(index);
         c.setDiagnostico(this.TextDiagnostico1.getText());
         c.setExameQueixa(this.TextoExameQueixa.getText());
@@ -2229,7 +2226,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         c.setIndicacaoCirurgica(this.CheckBoxIndicacaoCirurgica.isSelected());
     }
 
-    public void enableDisableComponents(JComponent componente, boolean estado) {
+    private void enableDisableComponents(JComponent componente, boolean estado) {
         componente.setEnabled(estado);
         for (java.awt.Component comp : componente.getComponents()) {
             if (comp instanceof JComponent) {
@@ -2238,8 +2235,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             comp.setEnabled(estado);
         }
     }
-
-    public LocalDate getDataNascimento(JFormattedTextField f) {
+    private int checkGender(Genero g){
+        if (g.toString() == "MASCULINO"){
+            return 0;//Masculino = index 0
+        }else{
+            return 1;
+        }
+    }
+    private LocalDate getDataNascimento(JFormattedTextField f) {
         try{
             LocalDate dataN = LocalDate.parse(
                     f.getText().trim(),
@@ -2252,7 +2255,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         }
         return null;
     }
-    public FileOutputStream selectSavePath(){
+    private FileOutputStream selectSavePath(){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Salvar Arquivo Excel");
         fileChooser.setSelectedFile(new File("arquivo.xlsx"));
@@ -2278,7 +2281,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
         return null;
     }
-    public static InputStream selectExcelFileToRead() {
+    private static InputStream selectExcelFileToRead() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Selecionar Arquivo Excel");
 
