@@ -4,21 +4,14 @@
  */
 package FrontEnd_Packge;
 
+import BackEnd_Packge.*;
 import BackEnd_Packge.ArrayListClass.ConsultaArrayList;
 import BackEnd_Packge.ArrayListClass.EnfermeiroArrayList;
 import BackEnd_Packge.ArrayListClass.MedicoArrayList;
 import BackEnd_Packge.ArrayListClass.PacienteArrayList;
-import BackEnd_Packge.ConsultaMedica;
-import BackEnd_Packge.Enfermeiro;
-import BackEnd_Packge.ExportarExcel;
-import BackEnd_Packge.Genero;
-import BackEnd_Packge.Medico;
-import BackEnd_Packge.Paciente;
+
 import java.awt.Container;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -28,7 +21,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -1512,7 +1507,11 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         BotaoImportarExcel.setText("Importar Excel");
         BotaoImportarExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotaoImportarExcelActionPerformed(evt);
+                try {
+                    BotaoImportarExcelActionPerformed(evt);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1888,7 +1887,6 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
         ){
             JOptionPane.showMessageDialog(null,"Não há registros em memória para serem exportados");
         } else{
-
             XSSFWorkbook wb = new XSSFWorkbook();
             //Cria as Sheets
             XSSFSheet shPaciente = ExportarExcel.createSheet(wb, "Paciente");
@@ -1909,27 +1907,26 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             ExportarExcel.writeSheetMedico(wb,shMedico,MedicoArrayList.ListaDeMedicos);
             ExportarExcel.writeSheetEnfermeiro(wb,shEnfermeiro,EnfermeiroArrayList.ListaDeEnfermeiro);
             ExportarExcel.writeSheetConsulta(wb,shConsulta,ConsultaArrayList.ListaDeConsulta);
-
-
-
             //Escrever arquivo
             //Usar o JfileChooser para escolher o local de salvamento do arquivo
-            try(OutputStream fileOut = new FileOutputStream("worksheet.xlsx")){
+            try(OutputStream fileOut = selectSavePath()){
                 wb.write(fileOut);
                 wb.close();
             }catch(Exception e){
-
+                System.err.println(e);
             }
-
         }
-
-
-
-
     }//GEN-LAST:event_BotaoExportarExcelActionPerformed
 
-    private void BotaoImportarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoImportarExcelActionPerformed
+    private void BotaoImportarExcelActionPerformed(java.awt.event.ActionEvent evt) throws IOException {//GEN-FIRST:event_BotaoImportarExcelActionPerformed
         // TODO add your handling code here:
+
+        ImportarExcel.mergeDataFromWorkbook(selectExcelFileToRead());
+        montarTabelaConsulta();
+        montarTabelaEnfermeiro();
+        montarTabelaMedico();
+        montarTabelaPacientes();
+
     }//GEN-LAST:event_BotaoImportarExcelActionPerformed
 
     private void BotaoSalvarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoSalvarConsultaActionPerformed
@@ -1992,7 +1989,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                 ModeloTabelaPaciente.addRow(
                         new Object[]{
                             p.getNomeCompleto(),
-                            sdf.format(p.getDataCadastro())//Irá mostrar somente dd/mm/yyyy ao inves do objeto Date completo
+                            p.getDataCadastro()//Irá mostrar somente dd/mm/yyyy ao inves do objeto Date completo
                         });
             }
         }
@@ -2075,7 +2072,6 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
             }
         }
         return null;
-
     }
 
     public Medico getMedico(int index) {
@@ -2249,17 +2245,63 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                     f.getText().trim(),
                     DateTimeFormatter.ofPattern("dd/MM/yyyy")
             );
-            // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
             return dataN;
         }catch(Exception e) {
             System.out.println(e);
         }
         return null;
     }
-       //@Override
-    public boolean isCellEditable(int row, int column) {
-        return false;
+    public FileOutputStream selectSavePath(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Salvar Arquivo Excel");
+        fileChooser.setSelectedFile(new File("arquivo.xlsx"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Excel (*.xlsx)", "xlsx"));
+
+        int resultado = fileChooser.showSaveDialog(null);
+
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File arquivo = fileChooser.getSelectedFile();
+
+            // Garante extensão .xlsx
+            if (!arquivo.getName().toLowerCase().endsWith(".xlsx")) {
+                arquivo = new File(arquivo.getAbsolutePath() + ".xlsx");
+            }
+
+            try {
+                return new FileOutputStream(arquivo);
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Erro ao criar o arquivo:\n" + e.getMessage());
+            }
+        }
+
+        return null;
     }
+    public static InputStream selectExcelFileToRead() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecionar Arquivo Excel");
+
+        // Filtro para .xlsx e .xls
+        FileNameExtensionFilter filtroExcel = new FileNameExtensionFilter(
+                "Arquivos Excel (*.xlsx, *.xls)", "xlsx", "xls");
+        fileChooser.setFileFilter(filtroExcel);
+
+        int resultado = fileChooser.showOpenDialog(null);
+
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File arquivoSelecionado = fileChooser.getSelectedFile();
+            try {
+                return new FileInputStream(arquivoSelecionado);
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao abrir o arquivo:\n" + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotaoDeletarConsulta;
     private javax.swing.JButton BotaoDeletarEnfermeiro;

@@ -1,15 +1,8 @@
-package BackEnd_Packge;/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package BackEnd_Packge;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-/**
- *
- * @author -
- */
 public abstract class DadoPessoal {
     private String nomeCompleto;
     private LocalDate dataNascimento;

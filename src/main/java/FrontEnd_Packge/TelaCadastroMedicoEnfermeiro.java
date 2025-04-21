@@ -720,9 +720,9 @@ public class TelaCadastroMedicoEnfermeiro extends javax.swing.JFrame {
                     this.TextFieldDataNascimento.getText().trim(),
                     DateTimeFormatter.ofPattern("dd/MM/yyyy")
             );
-            // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
             return dataN;
-            // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -745,11 +745,7 @@ public class TelaCadastroMedicoEnfermeiro extends javax.swing.JFrame {
     this.FieldCelular.setText("");
     this.FieldEmail.setText("");
     this.FieldEspecialidades.setText("");
-    /*this.FieldNomeResponsavel.setText("");
-    this.FieldTelefoneResponsavel.setText("");
-    this.FieldCelularResponsável.setText("");
-    this.FieldEmailResponável.setText("");
-    this.TextObservacaoGeral.setText("");*/
+
 
 }
 

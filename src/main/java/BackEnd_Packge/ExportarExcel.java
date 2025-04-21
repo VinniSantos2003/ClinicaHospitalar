@@ -1,9 +1,6 @@
 package BackEnd_Packge;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -98,11 +95,15 @@ public class ExportarExcel {
         int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
         CellStyle dataStyle = wb.createCellStyle();
         CellStyle numericStyle = wb.createCellStyle();
+        DataFormat format = wb.createDataFormat();
         CreationHelper CH = wb.getCreationHelper();
+        numericStyle.setDataFormat(format.getFormat("#,##0.00"));
         dataStyle.setDataFormat(CH.createDataFormat().getFormat("dd/MM/yyyy"));
         for (Paciente p : ListadePacientes) {//Cuida das Linhas
             XSSFRow Row = sh.createRow(contatorRow);
-            Row.createCell(0).setCellValue(p.getIdPaciente());
+
+            Row.createCell(0).setCellValue(String.valueOf(p.getIdPaciente()));
+            Row.getCell(0).setCellStyle(numericStyle);
             //Row.getCell(0).setCellStyle(CellType.NUMERIC);
             Row.createCell(1).setCellValue(p.getNomeCompleto());
             Row.createCell(2).setCellValue(p.getDataNascimento());
@@ -138,14 +139,18 @@ public class ExportarExcel {
         int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
         CellStyle dataStyle = wb.createCellStyle();
         CellStyle numericStyle = wb.createCellStyle();
+        DataFormat format = wb.createDataFormat();
         CreationHelper CH = wb.getCreationHelper();
+        numericStyle.setDataFormat(format.getFormat("#,##0.00"));
         dataStyle.setDataFormat(CH.createDataFormat().getFormat("dd/MM/yyyy"));
         for (Medico m : ListadeMedicos) {
             XSSFRow Row = sh.createRow(contatorRow);
-            Row.createCell(0).setCellValue(m.getIdMedico());
+
+            Row.createCell(0).setCellValue(String.valueOf(m.getIdMedico()));
+            Row.getCell(0).setCellStyle(numericStyle);
             Row.createCell(1).setCellValue(m.getNomeCompleto());
             Row.createCell(2).setCellValue(m.getDataNascimento());
-            Row.getCell(2).setCellStyle(dataStyle);
+            Row.getCell(2).setCellStyle(numericStyle);
             Row.createCell(3).setCellValue(String.valueOf(m.getGenero()));//Problema
             Row.createCell(4).setCellValue(m.getEndereco().getRua());
             Row.createCell(5).setCellValue(m.getEndereco().getNumero());
@@ -158,7 +163,7 @@ public class ExportarExcel {
             Row.createCell(12).setCellValue(m.getContato().getEmail());
             //Fazer celular especificas do médico
             Row.createCell(13).setCellValue(m.getNumeroCRM());
-            Row.createCell(14).setCellValue(m.getAreasEspecialidade().toString());//Está retornando o nome do objeto, não o conteudo
+            Row.createCell(14).setCellValue(stripStringVector(m.getAreasEspecialidade()));//Está retornando o nome do objeto, não o conteudo
             Row.createCell(15).setCellValue(m.getCirugiao());
             Row.createCell(16).setCellValue(m.getChSemanal());
             Row.createCell(17).setCellValue(m.getSetor());
@@ -171,11 +176,16 @@ public class ExportarExcel {
         int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
         CellStyle dataStyle = wb.createCellStyle();
         CellStyle numericStyle = wb.createCellStyle();
+        DataFormat format = wb.createDataFormat();
         CreationHelper CH = wb.getCreationHelper();
+        numericStyle.setDataFormat(format.getFormat("#,##0.00"));
         dataStyle.setDataFormat(CH.createDataFormat().getFormat("dd/MM/yyyy"));
+
+
         for (Enfermeiro e : ListadeEnfermeiros) {//Cuida das Linhas
             XSSFRow Row = sh.createRow(contatorRow);
-            Row.createCell(0).setCellValue(e.getIdEnfermeiro());//Formatar a celula para numérico para aparecer o número ID por completo
+            Row.createCell(0).setCellValue(String.valueOf(e.getIdEnfermeiro()));//Formatar a celula para numérico para aparecer o número ID por completo
+            Row.getCell(0).setCellStyle(numericStyle);
             Row.createCell(1).setCellValue(e.getNomeCompleto());
             Row.createCell(2).setCellValue(e.getDataNascimento());
             Row.getCell(2).setCellStyle(dataStyle);//Formatar coluna 2 para data
@@ -199,11 +209,21 @@ public class ExportarExcel {
 
     public static void writeSheetConsulta(XSSFWorkbook wb, XSSFSheet sh, ArrayList<ConsultaMedica> ListadeConsultas) {
         int contatorRow = 1;
+        int qntColunasRow0 = contarCelulasPreenchidas(sh.getRow(0));
+        CellStyle dataStyle = wb.createCellStyle();
+        CellStyle numericStyle = wb.createCellStyle();
+        DataFormat format = wb.createDataFormat();
+        CreationHelper CH = wb.getCreationHelper();
+        numericStyle.setDataFormat(format.getFormat("#,##0.00"));
+        dataStyle.setDataFormat(CH.createDataFormat().getFormat("dd/MM/yyyy"));
         for(ConsultaMedica cm: ListadeConsultas){
             XSSFRow Row = sh.createRow(contatorRow);
             Row.createCell(0).setCellValue(cm.getIdConsulta());
             Row.createCell(1).setCellValue(cm.getIdPaciente());
             Row.createCell(2).setCellValue(cm.getIdMedico());
+            Row.getCell(0).setCellStyle(numericStyle);
+            Row.getCell(1).setCellStyle(numericStyle);
+            Row.getCell(2).setCellStyle(numericStyle);
             Row.createCell(3).setCellValue(cm.getExameQueixa());
             Row.createCell(4).setCellValue(cm.getDiagnostico());
             Row.createCell(5).setCellValue(cm.getPrescricao());
@@ -221,6 +241,13 @@ public class ExportarExcel {
         return count;
     }
 
+    private static String stripStringVector(String [] vetor){
+        StringBuilder texto = new StringBuilder();
+        for(String s : vetor){
+            texto.append(s);
+        }
+        return texto.toString();
+    }
 }
 
 

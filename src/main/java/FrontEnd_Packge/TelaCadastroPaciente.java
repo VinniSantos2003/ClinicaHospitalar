@@ -11,7 +11,7 @@ import BackEnd_Packge.Genero;
 import BackEnd_Packge.Paciente;
 import BackEnd_Packge.ArrayListClass.PacienteArrayList;
 import BackEnd_Packge.Responsavel;
-
+import java.time.LocalDate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -493,7 +493,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
                         c,
                         getGenero(),
                         getIdade(),
-                        new Date(),
+                        LocalDate.now(),
                         getObservacaoGeral(),
                         r);
 
@@ -568,7 +568,7 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
                     DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
             );
-            // Date data = Date.from(dataN.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
             return dataN;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "A data deve ser inserida no formato dd/mm/yyyy");
@@ -601,7 +601,6 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
     public int getIdade() {
         return Integer.parseInt(this.FieldIdade.getText());
     }
-
 
     public int getCep() {
         return Integer.parseInt(this.FieldCep.getText());
@@ -641,13 +640,6 @@ public class TelaCadastroPaciente extends javax.swing.JFrame {
 
     public Genero getGenero() {
         return Genero.valueOf(this.ComboBoxGenero.getSelectedItem().toString());
-
-
-    /*if (this.ComboBoxGenero.getSelectedItem() == "Feminimo") {
-        return Genero.FEMININO;
-    } else {
-        return Genero.MASCULINO;
-    }*/
     }
 
     public void limparTela() {

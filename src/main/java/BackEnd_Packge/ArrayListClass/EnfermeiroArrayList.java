@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author -
  */
 public class EnfermeiroArrayList {
-            public static ArrayList<Enfermeiro> ListaDeEnfermeiro = new ArrayList<Enfermeiro>();
+    public static ArrayList<Enfermeiro> ListaDeEnfermeiro = new ArrayList<Enfermeiro>();
     
     
     public static void addPacientes(Enfermeiro e){

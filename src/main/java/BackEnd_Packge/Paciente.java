@@ -8,11 +8,11 @@ import java.util.UUID;
 public class Paciente extends DadoPessoal{
     private long idPaciente;
     private int idade;
-    private Date dataCadastro;
+    private LocalDate dataCadastro;
     private String obsGeral;
     private ArrayList<ConsultaMedica> historicoConsultasMedicas;
     private Responsavel contatoResponsavel;
-/*
+
     public Paciente(
             String nomeCompleto,
             LocalDate dataNascimento,
@@ -20,7 +20,7 @@ public class Paciente extends DadoPessoal{
             ContatoTelEmail contato,
             Genero genero,
             int idade,
-            Date dataCadastro,
+            LocalDate dataCadastro,
             String obsGeral,
             ArrayList<ConsultaMedica> historicoConsultasMedicas,
             Responsavel contatoResponsavel
@@ -35,7 +35,7 @@ public class Paciente extends DadoPessoal{
         this.setObsGeral(obsGeral);
 
 
-    }*/
+    }
         public Paciente(
             String nomeCompleto,
             LocalDate dataNascimento,
@@ -43,7 +43,7 @@ public class Paciente extends DadoPessoal{
             ContatoTelEmail contato,
             Genero genero,
             int idade,
-            Date dataCadastro,
+            LocalDate dataCadastro,
             String obsGeral,
             //ConsultaMedica[] historicoConsultasMedicas,
             Responsavel contatoResponsavel
@@ -78,11 +78,11 @@ public class Paciente extends DadoPessoal{
         this.idade = idade;
     }
 
-    public Date getDataCadastro() {
+    public LocalDate getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(Date dataCadastro) {
+    public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 

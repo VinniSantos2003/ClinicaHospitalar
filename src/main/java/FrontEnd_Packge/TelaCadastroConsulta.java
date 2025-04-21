@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package FrontEnd_Packge;
 
 import BackEnd_Packge.ArrayListClass.ConsultaArrayList;
@@ -17,10 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author -
- */
+
 public class TelaCadastroConsulta extends javax.swing.JFrame {
 
     /**
@@ -287,19 +281,25 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
 
     private void BotaoRegistrarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoRegistrarConsultaActionPerformed
         // TODO add your handling code here:
-        ConsultaMedica CM = new ConsultaMedica(
-                UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE,
-                getPaciente().getIdPaciente(),
-                getMedico().getIdMedico(),
-                getQueixa(),
-                getDiagnostico(),
-                getPrescricao(),
-                this.CheckBoxIndicacaoCirurgica.isSelected());
-        
-        ConsultaArrayList.ListaDeConsulta.add(CM);
-        getPaciente().setHistoricoConsultasMedicas(CM);// Ta dando problema
-        limparTela();
-        JOptionPane.showMessageDialog(null,"Consulta registrada com sucesso!");
+        try {
+            ConsultaMedica CM = new ConsultaMedica(
+                    UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE,
+                    getPaciente().getIdPaciente(),
+                    getMedico().getIdMedico(),
+                    getQueixa(),
+                    getDiagnostico(),
+                    getPrescricao(),
+                    this.CheckBoxIndicacaoCirurgica.isSelected());
+            ConsultaArrayList.ListaDeConsulta.add(CM);
+            getPaciente().setHistoricoConsultasMedicas(CM);// Ta dando problema
+            limparTela();
+            JOptionPane.showMessageDialog(null,"Consulta registrada com sucesso!");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+
     }//GEN-LAST:event_BotaoRegistrarConsultaActionPerformed
 
     private void BotaoFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoFecharActionPerformed
@@ -341,19 +341,19 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
             }
         });
     }
-    
-    
-    
-    public String getQueixa(){
+
+
+
+    private String getQueixa(){
         return this.TextoExameQueixa.getText();
     }
-    public String getDiagnostico(){
+    private String getDiagnostico(){
         return this.TextDiagnostico1.getText();
     }
-    public String getPrescricao(){
+    private String getPrescricao(){
         return this.TextPrescicao1.getText();
     }
-    public void montarTabelaPacientes(){//Funcional
+    private void montarTabelaPacientes(){//Funcional
        
         DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaPacientes.getModel();
         
@@ -364,7 +364,7 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
             });
         }
     }
-        public void montarTabelaMedico(){//Funcional
+    private void montarTabelaMedico(){//Funcional
        
         DefaultTableModel ModeloTabelaPaciente = (DefaultTableModel) this.TabelaMedicosEnfermeiros.getModel();
         
@@ -375,13 +375,13 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
             });
         }
     }
-    public Medico getMedico(){    
+    private Medico getMedico(){
         return MedicoArrayList.ListaDeMedicos.get(TabelaMedicosEnfermeiros.getSelectedRow());
     }
-    public Paciente getPaciente(){
+    private Paciente getPaciente(){
         return PacienteArrayList.ListaDePacientes.get(TabelaPacientes.getSelectedRow());
     }
-    public void limparTela(){
+    private void limparTela(){
         this.TextDiagnostico1.setText("");
         this.TextPrescicao1.setText("");
         this.TextoExameQueixa.setText("");
