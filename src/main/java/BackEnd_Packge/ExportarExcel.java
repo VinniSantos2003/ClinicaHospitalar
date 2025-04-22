@@ -101,7 +101,6 @@ public class ExportarExcel {
         dataStyle.setDataFormat(CH.createDataFormat().getFormat("dd/MM/yyyy"));
         for (Paciente p : ListadePacientes) {
             XSSFRow Row = sh.createRow(contatorRow);
-
             Row.createCell(0).setCellValue(String.valueOf(p.getIdPaciente()));
             Row.getCell(0).setCellStyle(numericStyle);
             Row.createCell(1).setCellValue(p.getNomeCompleto());
@@ -121,7 +120,7 @@ public class ExportarExcel {
             Row.createCell(14).setCellValue(p.getDataCadastro());
             Row.getCell(14).setCellStyle(dataStyle);
             Row.createCell(15).setCellValue(p.getObsGeral());
-            Row.createCell(16).setCellValue("Vazio por hora");//Criar uma função para listar os IDs das consultas e separar-las por ";"
+            Row.createCell(16).setCellValue(stripLongVector(p.getHistoricoConsultasMedicas()));//Criar uma função para listar os IDs das consultas e separar-las por ";"
             Row.createCell(17).setCellValue(p.getContatoResponsavel().getNomeResponsavel());
             Row.createCell(18).setCellValue(p.getContatoResponsavel().getTelefone());
             Row.createCell(19).setCellValue(p.getContatoResponsavel().getCelular());
@@ -214,9 +213,9 @@ public class ExportarExcel {
         dataStyle.setDataFormat(CH.createDataFormat().getFormat("dd/MM/yyyy"));
         for(ConsultaMedica cm: ListadeConsultas){
             XSSFRow Row = sh.createRow(contatorRow);
-            Row.createCell(0).setCellValue(cm.getIdConsulta());
-            Row.createCell(1).setCellValue(cm.getIdPaciente());
-            Row.createCell(2).setCellValue(cm.getIdMedico());
+            Row.createCell(0).setCellValue(String.valueOf(cm.getIdConsulta()));
+            Row.createCell(1).setCellValue(String.valueOf(cm.getIdPaciente()));
+            Row.createCell(2).setCellValue(String.valueOf(cm.getIdMedico()));
             Row.getCell(0).setCellStyle(numericStyle);
             Row.getCell(1).setCellStyle(numericStyle);
             Row.getCell(2).setCellStyle(numericStyle);
@@ -244,7 +243,17 @@ public class ExportarExcel {
         }
         return texto.toString();
     }
+    private static String stripLongVector(ArrayList<Long> vetor){
+        StringBuilder texto = new StringBuilder();
+        for(long l : vetor){
+            texto.append(l+";");
+        }
+        return texto.toString();
+    }
 }
+
+
+
 
 
 

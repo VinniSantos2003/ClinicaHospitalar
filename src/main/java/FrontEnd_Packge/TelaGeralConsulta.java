@@ -509,14 +509,14 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Paciente", "Médico", "Data da consulta"
+                "Nome Paciente", "Nome Médico", "Id Consulta"
             }
         ) {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Long.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1940,6 +1940,15 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
     private void BotaoMostrarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoMostrarConsultaActionPerformed
         // TODO add your handling code here:
+                if (this.TabelaConsulta.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione uma consulta para realizar a Consulta ");
+        } else {
+            this.TabbedPaneEdicao.setSelectedIndex(3);
+            consultaIndexEdicao = this.TabelaConsulta.getSelectedRow();
+            this.BotaoSalvarConsulta.setEnabled(false);
+            getConsultaData();
+            enableDisableComponents(PainelConsultaDados, false);
+        }
     }//GEN-LAST:event_BotaoMostrarConsultaActionPerformed
 
     private void FieldIdadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FieldIdadeActionPerformed
@@ -2039,6 +2048,7 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
        
        
              */
+
             for (ConsultaMedica c : ConsultaArrayList.ListaDeConsulta) {//Passo 1
                 long idMedico = c.getIdMedico();
                 long idPaciente = c.getIdPaciente();
@@ -2046,7 +2056,8 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
                 ModeloTabelaConsulta.addRow(
                         new Object[]{
                             getPacienteById(idPaciente).getNomeCompleto(),
-                            getMedicoById(idMedico).getNomeCompleto(), /*
+                            getMedicoById(idMedico).getNomeCompleto(),
+                                c.getIdConsulta()/*
                         Colocar mais uma informação no campo de consulta
                         Somente o nome do paciente e do médico não vai ser suficiente
                          */}
@@ -2304,6 +2315,8 @@ public class TelaGeralConsulta extends javax.swing.JFrame {
 
         return null;
     }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotaoDeletarConsulta;

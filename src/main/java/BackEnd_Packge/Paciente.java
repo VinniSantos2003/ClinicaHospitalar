@@ -10,7 +10,7 @@ public class Paciente extends DadoPessoal{
     private int idade;
     private LocalDate dataCadastro;
     private String obsGeral;
-    private ArrayList<ConsultaMedica> historicoConsultasMedicas;
+    private ArrayList<Long> historicoConsultasMedicas;
     private Responsavel contatoResponsavel;
 
     public Paciente(
@@ -94,12 +94,12 @@ public class Paciente extends DadoPessoal{
         this.obsGeral = obsGeral;
     }
 
-    public ArrayList<ConsultaMedica> getHistoricoConsultasMedicas() {
+    public ArrayList<Long> getHistoricoConsultasMedicas() {
         return historicoConsultasMedicas;
     }
 
-    public void setHistoricoConsultasMedicas(ConsultaMedica historicoConsultasMedicas) {
-         this.historicoConsultasMedicas.add(historicoConsultasMedicas);
+    public void setHistoricoConsultasMedicas(long idHistoricoConsultasMedicas) {
+         this.historicoConsultasMedicas.add(idHistoricoConsultasMedicas);
     }
 
     public Responsavel getContatoResponsavel() {

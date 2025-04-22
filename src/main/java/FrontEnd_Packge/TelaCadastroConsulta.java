@@ -291,7 +291,7 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
                     getPrescricao(),
                     this.CheckBoxIndicacaoCirurgica.isSelected());
             ConsultaArrayList.ListaDeConsulta.add(CM);
-            getPaciente().setHistoricoConsultasMedicas(CM);// Ta dando problema
+            getPaciente().setHistoricoConsultasMedicas(CM.getIdConsulta());// Ta dando problema
             limparTela();
             JOptionPane.showMessageDialog(null,"Consulta registrada com sucesso!");
         } catch (Exception e) {

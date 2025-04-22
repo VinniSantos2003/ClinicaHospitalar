@@ -64,6 +64,7 @@ public class ImportarExcel {
                         r
                 );
                 p.setIdPaciente(Long.parseLong(row.getCell(0).toString()));
+                getIdConsultasToPaciente(row,16,p);
                 PacienteArrayList.ListaDePacientes.add(p);
             }
 
@@ -212,8 +213,15 @@ public class ImportarExcel {
         }
     }
     private static String[] getEspecialidades(Row r, int indexEspecialidades){
-
         return  r.getCell(indexEspecialidades).toString().split(";");
+    }
+    private static void getIdConsultasToPaciente(Row r, int index, Paciente p){
+        String[] temp = r.getCell(index).toString().split(";");
+        for(String s:temp){
+            if(!s.isEmpty()){
+                p.setHistoricoConsultasMedicas(Long.parseLong(s));
+            }
+        }
     }
     private static String treatNumber(Row r, int indexRow){
         if(Objects.equals(r.getCell(indexRow).toString().trim(), "")){
